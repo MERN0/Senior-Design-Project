@@ -1,19 +1,26 @@
-import os
-import pandas as pd
-import numpy as np
-from joblib import load
+import os # to interact with the operating system
+import pandas as pd # data manipulation and analysis library
+import numpy as np # for scientific computing 
+from joblib import load # persisting/loading Python objects (trained models)
 
-from PyPDF2 import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from PyPDF2 import PdfReader # reading and writing PDF files
+
+# building applications with large language models
+from langchain.text_splitter import RecursiveCharacterTextSplitter 
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import streamlit as st
-import google.generativeai as genai
 from langchain.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
+
+import streamlit as st # creating interactive web applications
+
+import google.generativeai as genai # gemini api
+
+# loading environment variables
 from dotenv import load_dotenv
 
+# the page title and an emoji icon
 st.set_page_config(
         page_title="SDP Group 15",
         page_icon="🤖"
@@ -23,8 +30,10 @@ st.title("SDP Group 15 🤖")
 # Load your trained models
 models = {
     'Logistic Regression': 'lr_model.pkl',
-    'K-Nearest Neighbors': 'knn_model.pkl',
-    'Gradient Boosting': 'gradient_boosting_model.pkl'
+    'K-Nearest Neighbours': 'knn_model.pkl',
+    'Gradient Boosting': 'gradient_boosting_model.pkl',
+    'Random Forest': 'random_forest_model.pkl',
+    # 'Gaussian Naive Bayes': 'gaussian_naive_bayes_model.pkl',
 }
 
 # Define a function to load the selected model
@@ -67,10 +76,11 @@ if file_uploaded is not None:
     st.dataframe(pd.DataFrame({'Transaction': df.index, 'Predicted Class': predictions_label}))
     # Transaction Counts
     # st.header("Transaction Counts")
-    legit_count = len(df[df['Class'] == 0])
-    fraud_count = len(df[df['Class'] == 1])
-    st.write("Legit Transactions:", legit_count)
-    st.write("Fraudulent Transactions:", fraud_count)
+    # total_transactions = len(df[df[df['Class']]])
+    # legit_count = len(df[df['Class'] == 0])
+    # fraud_count = len(df[df['Class'] == 1])
+    # st.write("Legit Transactions:", legit_count)
+    # st.write("Fraudulent Transactions:", fraud_count)
     # Visualize predictions distribution
     st.bar_chart(pd.Series(predictions).value_counts())
     
